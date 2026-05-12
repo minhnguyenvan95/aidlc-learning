@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-DLC — Hướng Dẫn Tương Tác</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h1>AI-DLC</h1>
+                <p class="subtitle">Hướng Dẫn Tương Tác</p>
+            </div>
+            <div class="phase-nav">
+                <button class="phase-btn active"><span class="icon">🎯</span> Chọn Bài Toán</button>
+                <div class="phase-label inception-label">Pha Khởi Đầu (Inception)</div>
+                <button class="phase-btn"><span class="step-num">1</span> Phát Hiện Workspace<span class="badge always">LUÔN</span></button>
+                <button class="phase-btn"><span class="step-num">2</span> Phân Tích Ngược<span class="badge cond">ĐK</span></button>
+                <button class="phase-btn"><span class="step-num">3</span> Phân Tích Yêu Cầu<span class="badge always">LUÔN</span></button>
+                <button class="phase-btn"><span class="step-num">4</span> Câu Chuyện Người Dùng<span class="badge cond">ĐK</span></button>
+                <button class="phase-btn"><span class="step-num">5</span> Lập Kế Hoạch<span class="badge always">LUÔN</span></button>
+                <button class="phase-btn"><span class="step-num">6</span> Thiết Kế Ứng Dụng<span class="badge cond">ĐK</span></button>
+                <button class="phase-btn"><span class="step-num">7</span> Sinh Đơn Vị Công Việc<span class="badge cond">ĐK</span></button>
+                <div class="phase-label construction-label">Pha Xây Dựng (Construction)</div>
+                <button class="phase-btn"><span class="step-num">8</span> Thiết Kế Chức Năng<span class="badge cond">ĐK</span></button>
+                <button class="phase-btn"><span class="step-num">9</span> Yêu Cầu Phi Chức Năng<span class="badge cond">ĐK</span></button>
+                <button class="phase-btn"><span class="step-num">10</span> Thiết Kế Hạ Tầng<span class="badge cond">ĐK</span></button>
+                <button class="phase-btn"><span class="step-num">11</span> Sinh Mã Nguồn<span class="badge always">LUÔN</span></button>
+                <button class="phase-btn"><span class="step-num">12</span> Xây Dựng & Kiểm Thử<span class="badge always">LUÔN</span></button>
+                <div class="phase-label" style="color:#FFD54F">🟡 Pha Vận Hành (Operations)</div>
+                <button class="phase-btn"><span class="step-num">13</span> Vận Hành<span class="badge always">LUÔN</span></button>
+            </div>
+        </nav>
+        <main class="content">
+            <div class="content-header">
+                <button class="nav-btn" id="prevBtn" disabled>← Trước</button>
+                <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+                <button class="nav-btn" id="nextBtn">Tiếp →</button>
+            </div>
+            <div class="content-body" id="contentBody"></div>
+        </main>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
