@@ -36,23 +36,29 @@ Pha Khởi Đầu (7 stages) → Pha Xây Dựng (6 stages/unit) → Pha Vận H
 
 - 3 kịch bản với nội dung phân tích khác nhau hoàn toàn
 - Giai đoạn bị bỏ qua hiển thị rõ lý do (adaptive workflow)
-- Animation typewriter khi hệ thống "suy nghĩ" (chỉ lần đầu)
+- Câu hỏi xác minh: random 3 câu từ pool, trắc nghiệm + option "Khác" điền tự do
+- Animation typewriter chạy từng ký tự (JS-driven, chỉ lần đầu)
+- Giả lập AI processing (spinner) trước khi hiện kết quả
 - Input/Output chi tiết theo spec `.aidlc/core-workflow.md`
+- Pha Vận hành (Operations) với 5 mục chi tiết + timeline theo từng case
+- Nút "Tiếp tục →" inline sau khi phê duyệt
 - Sidebar hiển thị trạng thái: hoàn thành ✓, bỏ qua, đang xem
+- Hamburger menu cho mobile responsive
+- Link tài liệu tham khảo trong sidebar
 - Điều hướng bàn phím (←→)
-- Responsive (mobile-friendly)
 - Không framework, không build step — HTML/CSS/JS thuần
 
 ## Cấu trúc thư mục
 
 ```
 .
+├── index.html                       # Trang demo (entry point)
+├── styles.css                       # Giao diện
+├── app.js                           # Logic tương tác
+├── README.md                        # Tài liệu dự án
 ├── .aidlc/                          # Quy tắc AI-DLC (engine)
 │   └── aws-aidlc-rule-details/      # Rule files cho từng stage
-├── aidlc-docs/                      # Sản phẩm + tài liệu quy trình
-│   ├── index.html                   # Trang demo (mở trong browser)
-│   ├── styles.css                   # Giao diện
-│   ├── app.js                       # Logic tương tác
+├── aidlc-docs/                      # Tài liệu quy trình AI-DLC
 │   ├── aidlc-state.md               # Trạng thái quy trình
 │   ├── audit.md                     # Nhật ký kiểm toán
 │   ├── inception/                   # Tài liệu Pha Khởi Đầu
@@ -65,7 +71,7 @@ Pha Khởi Đầu (7 stages) → Pha Xây Dựng (6 stages/unit) → Pha Vận H
 │   │   ├── plans/                   # Kế hoạch sinh mã + thiết kế chức năng
 │   │   └── build-and-test/          # Hướng dẫn kiểm thử
 │   └── operations/                  # Tài liệu Pha Vận Hành
-└── docs/aidlc-architecture/         # Tài liệu phân tích kiến trúc AI-DLC (Mermaid diagrams)
+└── docs/aidlc-architecture/         # Tài liệu tham khảo kiến trúc AI-DLC (Mermaid diagrams)
 ```
 
 ## Dự án này được xây dựng bằng AI-DLC
@@ -73,15 +79,15 @@ Pha Khởi Đầu (7 stages) → Pha Xây Dựng (6 stages/unit) → Pha Vận H
 Toàn bộ quá trình phát triển trang web này đi theo đúng quy trình AI-DLC:
 
 1. **Workspace Detection** → Greenfield
-2. **Requirements Analysis** → 17 yêu cầu chức năng, 5 phi chức năng
+2. **Requirements Analysis** → 23 yêu cầu chức năng, 5 phi chức năng
 3. **User Stories** → 5 câu chuyện với tiêu chí chấp nhận
-4. **Workflow Planning** → Skip RE, NFR, Infra. Execute 8/13 stages.
+4. **Workflow Planning** → Skip RE, NFR, Infra. Execute 9/13 stages.
 5. **Application Design** → SPA thuần HTML/CSS/JS
-6. **Units Generation** → 3 đơn vị (html, css, js)
-7. **Functional Design** → Data model, render flow, navigation
-8. **Code Generation** → 9 iterations theo feedback
-9. **Build & Test** → 12 test cases thủ công
-10. **Operations** → Static hosting, không cần server
+6. **Units Generation** → 3 đơn vị (html, css, js) tại workspace root
+7. **Functional Design** → Data model, render flow, typewriter engine, quiz system
+8. **Code Generation** → 16 iterations theo feedback
+9. **Build & Test** → Diagnostics clean, 12+ test cases thủ công
+10. **Operations** → Static hosting (Netlify), không cần server
 
 Xem chi tiết trong `aidlc-docs/aidlc-state.md` và `aidlc-docs/audit.md`.
 

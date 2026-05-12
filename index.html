@@ -10,7 +10,10 @@
     <div class="app">
         <nav class="sidebar">
             <div class="sidebar-header">
-                <h1>AI-DLC</h1>
+                <div class="sidebar-header-row">
+                    <h1>AI-DLC</h1>
+                    <button class="close-menu" onclick="toggleMenu()">✕</button>
+                </div>
                 <p class="subtitle">Học AI-DLC qua Thực hành</p>
                 <a class="ref-link" href="https://github.com/minhnguyenvan95/aidlc-learning/tree/main/docs/aidlc-architecture" target="_blank">📚 Tài liệu tham khảo</a>
             </div>
@@ -36,6 +39,7 @@
         </nav>
         <main class="content">
             <div class="content-header">
+                <button class="hamburger" id="menuBtn" onclick="toggleMenu()">☰</button>
                 <button class="nav-btn" id="prevBtn" disabled>← Trước</button>
                 <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
                 <button class="nav-btn" id="nextBtn">Tiếp →</button>

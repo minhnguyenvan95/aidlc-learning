@@ -6,6 +6,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;l
 /* Sidebar */
 .sidebar{width:264px;background:var(--sb);color:#D1D5DB;overflow-y:auto;position:fixed;top:0;left:0;bottom:0;z-index:100}
 .sidebar-header{padding:20px;border-bottom:1px solid rgba(255,255,255,.08)}
+.sidebar-header-row{display:flex;align-items:center;justify-content:space-between}
+.close-menu{display:none;background:none;border:none;color:#9CA3AF;font-size:1.2rem;cursor:pointer;padding:4px 8px;border-radius:4px}
+.close-menu:hover{color:#fff;background:rgba(255,255,255,.1)}
 .sidebar-header h1{font-size:1.2rem;color:#fff;letter-spacing:-.5px}
 .sidebar-header .subtitle{font-size:.72rem;color:#9CA3AF;margin-top:2px}
 .ref-link{display:inline-block;margin-top:10px;padding:5px 10px;font-size:.72rem;color:#93C5FD;border:1px solid rgba(147,197,253,.3);border-radius:4px;text-decoration:none;transition:all .15s}
@@ -53,16 +56,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;l
 .card ul,.card ol{padding-left:18px;margin-top:6px}
 .card li{margin-bottom:3px}
 
-/* Thinking animation — typewriter style */
-.think{opacity:0;animation:typeIn .6s ease forwards}
-.think:nth-child(1){animation-delay:.1s}
-.think:nth-child(2){animation-delay:.6s}
-.think:nth-child(3){animation-delay:1.2s}
-.think:nth-child(4){animation-delay:1.8s}
-.think:nth-child(5){animation-delay:2.4s}
-.think:nth-child(6){animation-delay:3.0s}
-.think:nth-child(7){animation-delay:3.6s}
-@keyframes typeIn{0%{opacity:0;clip-path:inset(0 100% 0 0)}50%{opacity:1;clip-path:inset(0 50% 0 0)}100%{opacity:1;clip-path:inset(0 0 0 0)}}
+/* Thinking animation — JS-driven typewriter */
+.think.hidden{display:none}
+.think{margin-bottom:14px}
 
 .dots{display:inline-flex;align-items:center;gap:3px;padding:5px 12px;background:var(--mut-l);border-radius:10px;margin-bottom:10px;font-size:.74rem;color:var(--txt2)}
 .dots span{width:4px;height:4px;border-radius:50%;background:var(--mut);animation:pulse 1.4s infinite}
@@ -154,10 +150,41 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;l
 .hint.ok{background:var(--ok-l);border-color:var(--ok-b)}
 
 /* Responsive */
-@media(max-width:768px){.sidebar{display:none}.content{margin-left:0}}
+.hamburger{display:none;padding:6px 10px;border:1px solid var(--brd);border-radius:5px;background:#fff;font-size:1.1rem;cursor:pointer;line-height:1}
+@media(max-width:768px){
+  .sidebar{display:none;position:fixed;top:0;left:0;bottom:0;width:264px;z-index:200}
+  .sidebar.open{display:block}
+  .content{margin-left:0}
+  .hamburger{display:block}
+  .close-menu{display:block}
+}
 
 
 /* Credit footer */
 .credit{padding:16px 28px;text-align:center;font-size:.74rem;color:var(--txt2);border-top:1px solid var(--brd);margin-top:40px}
 .credit a{color:var(--pri);text-decoration:none}
 .credit a:hover{text-decoration:underline}
+
+/* Inline next button */
+.inline-next{display:inline-block;margin-top:16px;padding:8px 20px;border:none;border-radius:6px;background:var(--pri);color:#fff;font-size:.82rem;font-weight:500;cursor:pointer;transition:all .15s}
+.inline-next:hover{background:#1D4ED8;transform:translateY(-1px);box-shadow:0 4px 12px rgba(37,99,235,.15)}
+
+/* AI Loading spinner */
+.ai-loading{padding:24px;text-align:center;animation:fadeIn .3s ease}
+.ai-loading-inner{display:inline-flex;align-items:center;gap:10px;padding:12px 24px;background:var(--mut-l);border-radius:8px;font-size:.84rem;color:var(--txt2)}
+.ai-spinner{width:16px;height:16px;border:2px solid var(--brd);border-top-color:var(--pri);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* Quiz questions */
+.quiz-list{display:flex;flex-direction:column;gap:16px}
+.quiz-item{padding-bottom:14px;border-bottom:1px solid var(--brd)}
+.quiz-item:last-child{border-bottom:none;padding-bottom:0}
+.quiz-q{font-size:.84rem;font-weight:600;color:var(--txt);margin-bottom:8px}
+.quiz-opts{display:flex;flex-direction:column;gap:4px}
+.quiz-opt{display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:5px;font-size:.8rem;color:var(--txt2);cursor:pointer;transition:background .1s}
+.quiz-opt:hover{background:var(--mut-l)}
+.quiz-opt input[type="radio"]{margin:0;accent-color:var(--pri)}
+.quiz-opt.other{flex-wrap:wrap}
+.quiz-input{flex:1;min-width:120px;margin-left:4px;padding:4px 8px;border:1px solid var(--brd);border-radius:4px;font-size:.78rem;outline:none}
+.quiz-input:focus{border-color:var(--pri)}

@@ -137,10 +137,10 @@ function getData(id, s) {
         ? 'Phân tích yêu cầu:<br>• <strong>Mục tiêu:</strong> Ứng dụng Todo cho cá nhân, web-based<br>• <strong>Tính năng chính:</strong> CRUD todos, đánh dấu hoàn thành, lọc, tìm kiếm<br>• <strong>Người dùng:</strong> 1 persona (cá nhân), cần đăng nhập<br>• <strong>Phạm vi:</strong> Full-stack (Frontend + Backend + DB)<br>• <strong>Rủi ro:</strong> Trung bình — nhiều thành phần nhưng logic đơn giản<br>• <strong>Độ sâu:</strong> <span class="depth standard">TIÊU CHUẨN</span>'
         : 'Phân tích yêu cầu:<br>• <strong>Mục tiêu:</strong> Tích hợp thanh toán Stripe vào e-commerce đang chạy<br>• <strong>Tính năng:</strong> Checkout, xử lý thanh toán, webhook, hoàn tiền, lịch sử<br>• <strong>Người dùng:</strong> 3 personas (khách hàng, quản trị viên, kế toán)<br>• <strong>Phạm vi:</strong> Backend + Frontend + Infrastructure + Security<br>• <strong>Rủi ro:</strong> <strong>CAO</strong> — liên quan tiền thật, PCI-DSS, dữ liệu nhạy cảm<br>• <strong>Độ sâu:</strong> <span class="depth comprehensive">TOÀN DIỆN</span>',
       questions: s.id==='bugfix'
-        ? ['Endpoint /api/users có filter params nào (search, role, status)?','Thời gian phản hồi chấp nhận được? (hiện >3s, mục tiêu bao nhiêu?)','Có được thay đổi response format (bỏ fields không cần)?','Redis đã có trong stack chưa hay cần thêm mới?','Có cần backward-compatible với client hiện tại?']
+        ? [{q:'Endpoint nào bị chậm?',opts:['GET /api/users','GET /api/users/:id','POST /api/users','Tất cả /users endpoints']},{q:'Thời gian phản hồi mục tiêu?',opts:['< 200ms','< 500ms','< 1 giây','< 2 giây']},{q:'Có được thay đổi response format?',opts:['Có, thoải mái','Chỉ thêm, không bỏ fields','Phải backward-compatible 100%']},{q:'Redis đã có trong stack?',opts:['Có, đang dùng cho session','Có trong docker-compose nhưng chưa dùng','Chưa có, cần thêm']},{q:'Client nào đang gọi endpoint này?',opts:['Admin dashboard (web)','Mobile app','Cả hai','Không rõ, cần kiểm tra']}]
         : s.id==='greenfield'
-        ? ['Bao nhiêu người dùng đồng thời dự kiến? (10? 100? 1000?)','Cần đăng nhập bằng gì? (email/password, Google OAuth, cả hai?)','Todo có cần due date, priority, tags không?','Cần đồng bộ real-time giữa các tab/thiết bị?','Có cần offline support (PWA)?','Deploy ở đâu? (AWS, Vercel, self-hosted?)']
-        : ['Stripe hay cổng thanh toán nào? (Stripe, PayPal, VNPay, tất cả?)','Hỗ trợ tiền tệ nào? (USD only? Multi-currency?)','Cần recurring payments (subscription) không?','Hoàn tiền: tự động hay cần admin approve?','PCI-DSS compliance level nào? (SAQ-A đủ hay cần SAQ-D?)','Webhook retry policy: bao nhiêu lần, timeout bao lâu?','Cần 3D Secure (SCA) cho thị trường EU không?'],
+        ? [{q:'Số người dùng đồng thời dự kiến?',opts:['< 10 (cá nhân)','10-100 (nhóm nhỏ)','100-1000 (startup)','> 1000']},{q:'Xác thực bằng gì?',opts:['Email + password','Google OAuth','Cả hai','Không cần (public)']},{q:'Todo cần fields nào?',opts:['Chỉ title + completed','Thêm priority','Thêm due date','Thêm tags','Tất cả']},{q:'Cần real-time sync?',opts:['Không, refresh manual','Giữa các tab','Giữa các thiết bị']},{q:'Deploy ở đâu?',opts:['AWS (ECS)','Vercel/Netlify','Docker self-hosted','Chưa quyết định']}]
+        : [{q:'Cổng thanh toán?',opts:['Stripe only','Stripe + PayPal','VNPay','Multi-gateway']},{q:'Loại tiền tệ?',opts:['USD only','USD + EUR','Multi-currency (10+)','VND only']},{q:'Recurring payments?',opts:['Không, one-time only','Monthly subscription','Monthly + yearly','Chưa chắc']},{q:'Xử lý hoàn tiền?',opts:['Tự động < 24h','Admin approve','Partial refund OK','Không hỗ trợ']},{q:'PCI-DSS level?',opts:['SAQ-A (hosted form)','SAQ-A-EP (JS SDK)','SAQ-D (full)','Cần tư vấn']},{q:'3D Secure cho EU?',opts:['Có, bắt buộc','Không, chỉ US/VN','Để Stripe quyết định']}],
       decision: s.id==='bugfix' ? 'Đề xuất: Độ sâu <strong>TỐI THIỂU</strong> — vấn đề rõ ràng, giải pháp cô lập.' : s.id==='greenfield' ? 'Đề xuất: Độ sâu <strong>TIÊU CHUẨN</strong> — nhiều thành phần nhưng logic không phức tạp.' : 'Đề xuất: Độ sâu <strong>TOÀN DIỆN</strong> — rủi ro cao, nhiều bên liên quan, cần phân tích kỹ.',
       options: s.id==='bugfix'
         ? [{id:'approve',label:'✅ Đồng ý Tối thiểu — Vấn đề rõ: index + cache + pagination là đủ',t:'approve'},{id:'deeper',label:'Nâng lên Tiêu chuẩn — Cần xem xét cả security issue (leak password_hash)',t:'change'},{id:'scope',label:'Mở rộng phạm vi — Kiểm tra thêm các endpoint khác có cùng vấn đề',t:'change'}]
@@ -386,8 +386,11 @@ function render() {
   const step = steps[idx];
   const body = document.getElementById('contentBody');
   body.innerHTML = step.id === 'select' ? renderSelect() : renderStep(step);
-  // Đánh dấu đã visited sau khi render
-  if(step.id !== 'select') visited[step.id] = true;
+  // Nếu chưa visited → chạy typewriter animation
+  if(step.id !== 'select' && !visited[step.id]) {
+    visited[step.id] = true;
+    typeBlocks();
+  }
   updateUI();
 }
 
@@ -399,7 +402,7 @@ function renderSelect() {
         <h3>${s.name}</h3><p>${s.desc}</p>
         <div class="scenario-meta"><span class="meta-tag">${s.type==='brownfield'?'Brownfield':'Greenfield'}</span><span class="meta-tag">${s.complexity==='minimal'?'Tối thiểu':s.complexity==='standard'?'Tiêu chuẩn':'Toàn diện'}</span></div>
       </div>`).join('')}</div>
-    ${selected?`<div class="hint ok"><strong>Đã chọn:</strong> ${selected.name} — Nhấn "Tiếp →" để bắt đầu.</div>`:`<div class="hint info">Mỗi bài toán kích hoạt các giai đoạn khác nhau.</div>`}`;
+    ${selected?`<div class="hint ok"><strong>Đã chọn:</strong> ${selected.name}<br><button class="inline-next" onclick="next()" style="margin-top:10px">Tiếp tục →</button></div>`:`<div class="hint info">Mỗi bài toán kích hoạt các giai đoạn khác nhau.</div>`}`;
 }
 
 function renderStep(step) {
@@ -408,14 +411,21 @@ function renderStep(step) {
   if(d.skip) return renderSkip(step, d);
   if(d.placeholder) return renderPlaceholder(step, d);
 
-  // Nếu đã visited trước đó → không dùng class think (không animation)
-  const cls = visited[step.id] ? '' : 'think';
+  // Nếu đã visited → hiện ngay (không hidden). Chưa visited → hidden chờ typeBlocks()
+  const cls = visited[step.id] ? 'think' : 'think hidden';
 
   let h = `<div class="step-header"><span class="phase-tag ${step.phase}">Pha ${step.phase==='inception'?'Khởi Đầu':'Xây Dựng'}</span><h2>${step.title}</h2><p class="step-desc">Bài toán: <strong>${selected.short}</strong></p></div>`;
-  if(!visited[step.id]) h += `<div class="${cls}"><div class="dots">Hệ thống đang phân tích <span></span><span></span><span></span></div></div>`;
   h += `<div class="${cls} card sys"><h3>🤖 Phân tích</h3><div class="sys-out">${d.analysis}</div></div>`;
 
-  if(d.questions) h += `<div class="${cls} card"><h3>❓ Câu hỏi xác minh</h3><ol class="q-list">${d.questions.map(q=>`<li>${q}</li>`).join('')}</ol></div>`;
+  if(d.questions) {
+    // Random 3 câu từ pool
+    const qs = shuffleAndPick(d.questions, 3);
+    h += `<div class="${cls} card"><h3>❓ Câu hỏi xác minh</h3><p style="color:var(--txt2);font-size:.78rem;margin-bottom:12px">Hệ thống cần làm rõ trước khi tiếp tục (chọn 1 option mỗi câu):</p><div class="quiz-list">${qs.map((item,qi)=>`
+      <div class="quiz-item">
+        <div class="quiz-q">${qi+1}. ${item.q}</div>
+        <div class="quiz-opts">${item.opts.map((o,oi)=>`<label class="quiz-opt"><input type="radio" name="q${qi}" value="${oi}"><span>${String.fromCharCode(65+oi)}) ${o}</span></label>`).join('')}<label class="quiz-opt other"><input type="radio" name="q${qi}" value="other"><span>X) Khác:</span><input type="text" class="quiz-input" placeholder="Nhập câu trả lời..."></label></div>
+      </div>`).join('')}</div></div>`;
+  }
   if(d.stories) h += `<div class="${cls} card"><h3>📖 Câu chuyện người dùng</h3><ul class="story-list">${d.stories.map(st=>`<li>"${st}"</li>`).join('')}</ul></div>`;
   if(d.plan) h += `<div class="${cls} card"><h3>📋 Kế hoạch thực thi</h3><table class="plan-table"><thead><tr><th>Giai đoạn</th><th>Quyết định</th><th>Lý do</th></tr></thead><tbody>${d.plan.map(p=>`<tr><td>${p.stage}</td><td><span class="plan-dec ${p.dec==='THỰC THI'?'exec':'skip'}">${p.dec}</span></td><td>${p.why}</td></tr>`).join('')}</tbody></table></div>`;
   if(d.units) h += `<div class="${cls} card"><h3>📦 Đơn vị công việc</h3>${d.units.map((u,i)=>`<div class="unit-item"><div class="unit-num">${i+1}</div><div class="unit-info"><strong>${u.n}</strong><p>${u.d}</p></div></div>`).join('')}</div>`;
@@ -429,10 +439,9 @@ function renderStep(step) {
 }
 
 function renderSkip(step, d) {
-  const cls = visited[step.id] ? '' : 'think';
+  const cls = visited[step.id] ? 'think' : 'think hidden';
 
   let h = `<div class="step-header"><span class="phase-tag ${step.phase}">Pha ${step.phase==='inception'?'Khởi Đầu':'Xây Dựng'}</span><h2>${step.title}</h2><p class="step-desc">Bài toán: <strong>${selected.short}</strong></p></div>`;
-  if(!visited[step.id]) h += `<div class="${cls}"><div class="dots">Hệ thống đang đánh giá <span></span><span></span><span></span></div></div>`;
   h += `<div class="${cls} skip-notice"><div class="skip-icon">⏭️</div><h3>BỎ QUA</h3><p>${d.skipReason}</p></div>`;
   h += `<div class="${cls} card"><h3>Bạn có đồng ý?</h3><div class="approval-actions"><button class="approval-btn approve" onclick="decide('${step.id}','agree-skip')">✅ Đồng ý bỏ qua</button><button class="approval-btn" onclick="decide('${step.id}','force')">Ghi đè — Thực thi giai đoạn này</button></div></div>`;
   if(decisions[step.id]) h += renderResult(step.id);
@@ -476,26 +485,71 @@ function renderResult(id) {
     h += `<div class="io-section"><div class="io-label">📤 Đầu ra — File được tạo/cập nhật</div><div class="io-files">${io.outputs.map(f=>`<div class="io-file output">✏️ ${f}</div>`).join('')}</div></div>`;
     h += `<div class="io-section"><div class="io-label">📐 Quy tắc — Rule files được nạp</div><div class="io-files">${io.rules.map(f=>`<div class="io-file rule">📋 ${f}</div>`).join('')}</div></div></div>`;
   }
+  // Nút tiếp tục inline (chỉ hiện nếu chưa phải step cuối)
+  if(idx < steps.length - 1) {
+    h += `<button class="inline-next" onclick="next()">Tiếp tục →</button>`;
+  }
   return h;
 }
 
 // Track which steps have been visited (animation already played)
 let visited = {};
 
+// Helper: shuffle array and pick n items
+function shuffleAndPick(arr, n) {
+  const copy = [...arr];
+  for(let i = copy.length-1; i > 0; i--) { const j = Math.floor(Math.random()*(i+1)); [copy[i],copy[j]]=[copy[j],copy[i]]; }
+  return copy.slice(0, n);
+}
+
 // ==================== ACTIONS ====================
 function pick(id) { selected = scenarios[id]; decisions = {}; visited = {}; render(); }
 function decide(stepId, dec) {
   decisions[stepId] = dec;
-  // Không re-render toàn bộ — chỉ append kết quả
-  const existing = document.querySelector('.decision-result');
-  if(existing) existing.remove();
-  const existingIO = document.querySelector('.io-summary');
-  if(existingIO) existingIO.remove();
+  // Xóa kết quả cũ
+  document.querySelectorAll('.decision-result,.io-summary,.inline-next,.ai-loading').forEach(el=>el.remove());
+
+  // Hiển thị loading spinner
   const container = document.getElementById('contentBody');
-  const tmp = document.createElement('div');
-  tmp.innerHTML = renderResult(stepId);
-  while(tmp.firstChild) container.appendChild(tmp.firstChild);
-  setTimeout(()=>{const r=document.querySelector('.decision-result');if(r)r.scrollIntoView({behavior:'smooth',block:'start'})},100);
+  const loader = document.createElement('div');
+  loader.className = 'ai-loading';
+  loader.innerHTML = '<div class="ai-loading-inner"><div class="ai-spinner"></div><span>Đang xử lý...</span></div>';
+  container.appendChild(loader);
+  loader.scrollIntoView({behavior:'smooth',block:'center'});
+
+  // Sau 1.5s → xóa loader, append kết quả với typewriter
+  setTimeout(()=>{
+    loader.remove();
+    const tmp = document.createElement('div');
+    tmp.innerHTML = renderResult(stepId);
+    const nodes = [];
+    while(tmp.firstChild) { nodes.push(tmp.firstChild); container.appendChild(tmp.firstChild); }
+    // Chạy typewriter trên output
+    typeOutputNodes(nodes);
+    setTimeout(()=>{const r=document.querySelector('.decision-result');if(r)r.scrollIntoView({behavior:'smooth',block:'start'})},50);
+  }, 1500);
+}
+
+function typeOutputNodes(nodes) {
+  const textNodes = [];
+  nodes.forEach(n => {
+    if(n.nodeType === 1) {
+      const walker = document.createTreeWalker(n, NodeFilter.SHOW_TEXT, null);
+      let tn;
+      while(tn = walker.nextNode()) { if(tn.textContent.trim()) textNodes.push(tn); }
+    }
+  });
+  if(!textNodes.length) return;
+  const originals = textNodes.map(n => { const t = n.textContent; n.textContent = ''; return t; });
+  let ni = 0, ci = 0;
+  function tick() {
+    if(ni >= textNodes.length) return;
+    ci++;
+    textNodes[ni].textContent = originals[ni].slice(0, ci);
+    if(ci >= originals[ni].length) { ni++; ci = 0; }
+    setTimeout(tick, 8);
+  }
+  tick();
 }
 
 function updateUI() {
@@ -512,9 +566,53 @@ function updateUI() {
   document.getElementById('progressFill').style.width = (idx/(steps.length-1)*100)+'%';
 }
 
-function next() { if(!selected&&idx===0)return; if(idx<steps.length-1){idx++;render();window.scrollTo({top:0,behavior:'smooth'});} }
-function prev() { if(idx>0){idx--;render();window.scrollTo({top:0,behavior:'smooth'});} }
-function goTo(i) { if(!selected&&i>0)return; idx=i; render(); window.scrollTo({top:0,behavior:'smooth'}); }
+function next() { if(!selected&&idx===0)return; if(idx<steps.length-1){idx++;render();window.scrollTo({top:0,behavior:'smooth'});closeMobile();} }
+function prev() { if(idx>0){idx--;render();window.scrollTo({top:0,behavior:'smooth'});closeMobile();} }
+function goTo(i) { if(!selected&&i>0)return; idx=i; render(); window.scrollTo({top:0,behavior:'smooth'}); closeMobile(); }
+
+function toggleMenu() { document.querySelector('.sidebar').classList.toggle('open'); }
+function closeMobile() { document.querySelector('.sidebar').classList.remove('open'); }
+
+// ==================== TYPEWRITER ENGINE ====================
+function typeBlocks() {
+  const blocks = document.querySelectorAll('.think.hidden');
+  if(!blocks.length) return;
+  let i = 0;
+  function showNext() {
+    if(i >= blocks.length) return;
+    const block = blocks[i];
+    block.classList.remove('hidden');
+    // Collect all text content to type
+    typeInside(block, () => { i++; setTimeout(showNext, 200); });
+  }
+  showNext();
+}
+
+function typeInside(el, onDone) {
+  // Find all leaf text nodes that have content
+  const textNodes = [];
+  const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
+  let node;
+  while(node = walker.nextNode()) {
+    if(node.textContent.trim()) textNodes.push(node);
+  }
+  if(!textNodes.length) { onDone(); return; }
+
+  // Store original text, clear all
+  const originals = textNodes.map(n => { const t = n.textContent; n.textContent = ''; return t; });
+
+  let ni = 0, ci = 0;
+  const speed = 12; // ms per character
+  function tick() {
+    if(ni >= textNodes.length) { onDone(); return; }
+    const full = originals[ni];
+    ci++;
+    textNodes[ni].textContent = full.slice(0, ci);
+    if(ci >= full.length) { ni++; ci = 0; }
+    setTimeout(tick, speed);
+  }
+  tick();
+}
 
 document.addEventListener('DOMContentLoaded', ()=>{
   render();

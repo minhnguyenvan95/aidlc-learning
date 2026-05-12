@@ -54,3 +54,8 @@
 9. **v9**: Mở rộng Operations với 5 sections chi tiết + timeline theo từng case
 10. **v10**: Di chuyển code ra workspace root (theo spec: app code NEVER in aidlc-docs/)
 11. **v11**: Thêm footer credit (link GitHub) + sidebar link tài liệu tham khảo
+12. **v12**: Thêm hamburger button cho responsive mobile (toggle sidebar open/close)
+13. **v13**: Thêm nút "Tiếp tục →" inline sau khi chọn option (UX: không cần cuộn lên header)
+14. **v14**: Đổi animation sang JS typewriter thực sự (chạy từng ký tự, block ẩn cho đến lượt)
+15. **v15**: Câu hỏi xác minh: random 3 từ pool, trắc nghiệm A/B/C + "X) Khác" với input tự do
+16. **v16**: Giả lập AI processing (spinner 1.5s) sau khi phê duyệt, output chạy typewriter

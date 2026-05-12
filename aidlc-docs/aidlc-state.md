@@ -49,9 +49,9 @@
 ### Pha Xây Dựng (Construction)
 | Thư mục | Tệp | Mô tả |
 |---------|-----|--------|
-| (workspace root) | index.html | Cấu trúc HTML: sidebar + main content area + footer credit |
-| (workspace root) | styles.css | Giao diện: palette xanh dương/xám, thinking animation, ref-link |
-| (workspace root) | app.js | Logic: 3 kịch bản, 13 giai đoạn, IO data, render, navigation |
+| (workspace root) | index.html | Cấu trúc HTML: sidebar (hamburger, ref link, close btn) + main + footer |
+| (workspace root) | styles.css | Giao diện: palette, typewriter, spinner, quiz, responsive hamburger |
+| (workspace root) | app.js | Logic: 3 kịch bản, 14 steps, IO, quiz random, typewriter engine, AI loading |
 | construction/build-and-test/ | (không cần) | Static site, mở trực tiếp browser |
 
 ## Decision Log (Tóm tắt quyết định)

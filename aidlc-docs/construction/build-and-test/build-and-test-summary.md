@@ -37,6 +37,10 @@ npx serve aidlc-docs/
 | 10 | IO summary hiển thị đường dẫn đúng spec | ✅ Khớp với .aidlc/core-workflow.md |
 | 11 | Click sidebar quay lại step đã xem | ✅ Hiện ngay, KHÔNG chạy animation lại |
 | 12 | Nội dung card sys hiển thị đầy đủ (không bị cắt) | ✅ clip-path không giới hạn chiều cao |
+| 13 | Hamburger mở sidebar trên mobile, nút ✕ đóng lại | ✅ toggle class open |
+| 14 | Câu hỏi random 3 từ pool, có radio + "Khác" input | ✅ shuffleAndPick, quiz UI |
+| 15 | Click phê duyệt → spinner 1.5s → output typewriter | ✅ ai-loading → typeOutputNodes |
+| 16 | Nút "Tiếp tục →" hiện sau output + ở trang chọn bài toán | ✅ inline-next |
 
 ### Không áp dụng
 - Unit tests (không có test framework — static site)
