@@ -1,10 +1,14 @@
 # aidlc-walkthrough
 
+> **[🚀 Xem Demo Trực Tiếp](https://aidlc-walkthrough.netlify.app)**
+
 Trang web tương tác giúp bạn hiểu quy trình **AI-DLC (AI-Driven Development Life Cycle)** bằng cách đi qua từng bước với bài toán thực tế.
 
 ## Demo
 
-Mở `aidlc-docs/index.html` trong trình duyệt — không cần cài đặt gì.
+👉 **https://aidlc-walkthrough.netlify.app**
+
+Hoặc mở `aidlc-docs/index.html` trong trình duyệt — không cần cài đặt gì.
 
 ## AI-DLC là gì?
 

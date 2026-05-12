@@ -52,3 +52,5 @@
 7. **v7**: Nội dung chi tiết hơn cho từng case (entities, code snippets, test cases cụ thể)
 8. **v8**: Thêm Pha Vận hành (Operations) — step 13, placeholder, không gate
 9. **v9**: Mở rộng Operations với 5 sections chi tiết + timeline theo từng case
+10. **v10**: Di chuyển code ra workspace root (theo spec: app code NEVER in aidlc-docs/)
+11. **v11**: Thêm footer credit (link GitHub) + sidebar link tài liệu tham khảo

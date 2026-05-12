@@ -49,9 +49,9 @@
 ### Pha Xây Dựng (Construction)
 | Thư mục | Tệp | Mô tả |
 |---------|-----|--------|
-| (root) | index.html | Cấu trúc HTML: sidebar + main content area |
-| (root) | styles.css | Giao diện: palette xanh dương/xám, thinking animation |
-| (root) | app.js | Logic: 3 kịch bản, 12 giai đoạn, IO data, render, navigation |
+| (workspace root) | index.html | Cấu trúc HTML: sidebar + main content area + footer credit |
+| (workspace root) | styles.css | Giao diện: palette xanh dương/xám, thinking animation, ref-link |
+| (workspace root) | app.js | Logic: 3 kịch bản, 13 giai đoạn, IO data, render, navigation |
 | construction/build-and-test/ | (không cần) | Static site, mở trực tiếp browser |
 
 ## Decision Log (Tóm tắt quyết định)

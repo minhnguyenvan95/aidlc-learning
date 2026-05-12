@@ -6,10 +6,11 @@ Single Page Application (SPA) thuần HTML/CSS/JS, không framework.
 ## Thành phần
 
 ### 1. Sidebar Navigation
-- Hiển thị 13 bước (1 chọn bài toán + 12 giai đoạn)
+- Hiển thị 14 bước (1 chọn bài toán + 12 giai đoạn + 1 Operations)
 - Trạng thái: active, done, skipped
-- Phase labels: Pha Khởi Đầu, Pha Xây Dựng
+- Phase labels: Pha Khởi Đầu, Pha Xây Dựng, Pha Vận Hành
 - Badges: LUÔN, ĐK (điều kiện)
+- Link "Tài liệu tham khảo" → GitHub docs/aidlc-architecture
 
 ### 2. Content Area
 - Step header (phase tag, title, scenario name)
@@ -23,6 +24,13 @@ Single Page Application (SPA) thuần HTML/CSS/JS, không framework.
 - Nút Trước/Tiếp
 - Progress bar
 - Keyboard arrows (←→)
+
+### 4. Footer
+- Credit link đến source code GitHub
+
+## Vị trí File
+- Mã nguồn: workspace root (`/index.html`, `/styles.css`, `/app.js`)
+- Tài liệu: `aidlc-docs/`
 
 ## Dữ liệu (Data Layer)
 

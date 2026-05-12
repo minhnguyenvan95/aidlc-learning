@@ -24,6 +24,8 @@ Xây dựng trang web tĩnh (UI-only) để hướng dẫn tương tác kỹ thu
 | FR-15 | Pha Vận hành chia thành 5 mục chi tiết theo từng case: Deployment, Monitoring, Incident Response, Maintenance, Production Readiness Checklist | Cao |
 | FR-16 | Mỗi mục trong Pha Vận hành có nội dung cụ thể cho bài toán đã chọn (Bugfix: rollback plan, Greenfield: go-live checklist, Brownfield: PCI-DSS audit) | Cao |
 | FR-17 | Hiển thị timeline/roadmap đề xuất sau khi code hoàn tất (ngày 0: deploy, ngày 1-7: monitor, tháng 1: retrospective) | Trung bình |
+| FR-18 | Footer credit với link đến source code GitHub | Thấp |
+| FR-19 | Sidebar header có link "Tài liệu tham khảo" đến docs/aidlc-architecture trên GitHub | Thấp |
 
 ## Yêu cầu Phi Chức năng
 
@@ -39,3 +41,5 @@ Xây dựng trang web tĩnh (UI-only) để hướng dẫn tương tác kỹ thu
 - Không cần backend/server
 - Không cần database
 - Dữ liệu Input/Output phải khớp với spec trong `.aidlc/aws-aidlc-rules/core-workflow.md`
+- Mã nguồn ứng dụng (html, css, js) nằm ở workspace root — KHÔNG trong aidlc-docs/
+- aidlc-docs/ chỉ chứa tài liệu quy trình
